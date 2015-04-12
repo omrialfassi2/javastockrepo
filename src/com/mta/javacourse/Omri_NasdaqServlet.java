@@ -13,8 +13,6 @@ public class Omri_NasdaqServlet extends HttpServlet {
 		int num3=7;
 		int result=(num1+num2)*num3;
 		String resultStr=new String("<h1>result of"+num1+"+"+num2+"*"+num3+"="+result+"</h1>");
-		
-		
 		resp.getWriter().println(resultStr);
 	}
 

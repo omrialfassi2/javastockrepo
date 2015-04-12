@@ -12,6 +12,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Omri_Nasdaq</servlet-name>
 		<url-pattern>/omri_nasdaq</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>mathServlet</servlet-name>
+		<servlet-class>com.mta.javacourse.mathServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mathServlet</servlet-name>
+		<url-pattern>/mathservlet</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
