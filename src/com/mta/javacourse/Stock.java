@@ -1,10 +1,21 @@
 package com.mta.javacourse;
 
-public class stcok {
+public class Stock {
 	private String symbol;
 	private Float ask;
 	private Float bid;
 	private java.util.Date date;
+	
+   public Stock (String nSymbol, float nBid, float nAsk){
+	   this.symbol=nSymbol;
+	   this.bid=nBid;
+	   this.ask=nAsk;
+	   this.date=new java.util.Date();
+   }
+	
+	
+	
+	
 	public String getSymbol() {
 		return symbol;
 	}
@@ -31,6 +42,6 @@ public class stcok {
 	}
 	public String getHtmlDescription(String name){
 		
-		“<b>Stock symbol</b>: “+getSymbol()+” <b>Bid</b>: “+getBid()
+		return "<b>Stock symbol</b>: "+this.symbol+"<b>Bid</b>: "+this.bid+"<b> Ask</b>: "+this.ask+"<b> date </b>: "+formDate.format(this.date)""
 	}
 }
