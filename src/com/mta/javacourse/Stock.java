@@ -1,16 +1,20 @@
 package com.mta.javacourse;
 
+import java.text.*;
+import java.util.*;
+
 public class Stock {
 	private String symbol;
 	private Float ask;
 	private Float bid;
 	private java.util.Date date;
+	private SimpleDateFormat formDate = new SimpleDateFormat("dd/MM/yyyy");
 	
-   public Stock (String nSymbol, float nBid, float nAsk){
+   public Stock (String nSymbol, float nBid, float nAsk, Date nDate ){
 	   this.symbol=nSymbol;
 	   this.bid=nBid;
 	   this.ask=nAsk;
-	   this.date=new java.util.Date();
+	   this.date=nDate; 
    }
 	
 	
@@ -40,8 +44,16 @@ public class Stock {
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
-	public String getHtmlDescription(String name){
+	public String getHtmlDescription(){
 		
-		return "<b>Stock symbol</b>: "+this.symbol+"<b>Bid</b>: "+this.bid+"<b> Ask</b>: "+this.ask+"<b> date </b>: "+formDate.format(this.date)""
+		return "<b>Stock symbol </b>: "+this.symbol+"<b> Bid</b>: "+this.bid+"<b> Ask</b>: "+this.ask+"<b> date </b>:" +formDate.format(this.getDate())+"</br>";
 	}
+	public SimpleDateFormat getFormDate() {
+		return formDate;
+	}
+
+	public void setFormDate(SimpleDateFormat formDate) {
+		this.formDate = formDate;
+	}
+	
 }
