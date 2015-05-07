@@ -1,11 +1,10 @@
-package com.mta.javacourse;
+package com.mta.javacourse.model;
 
 import java.text.*;
 import java.util.*;
 
 /**
- * Stcok contains details about individual stock
- * 
+ * Stock contains details about individual stock
  * @author OmriAlfassi
  */
 public class Stock {
@@ -32,6 +31,7 @@ public class Stock {
    /**
 	 * Copy C'tor of Stock class.
 	 * @param originalStock
+	 * @author OmriAlfassi
 	 */
    public Stock (Stock originalStock)
 	{

@@ -1,11 +1,11 @@
-package PortfolioManager.java;
+package com.mta.javacourse.service;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mta.javacourse.Stock;
 import com.mta.javacourse.model.Portfolio;
-
+import com.mta.javacourse.model.Stock;
+@SuppressWarnings("serial")
 public class PortfolioManager {
 	public Portfolio getPortfolio(){
 		Portfolio portfolio = new Portfolio("Portfolio");

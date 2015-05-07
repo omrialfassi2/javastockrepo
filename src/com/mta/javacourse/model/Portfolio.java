@@ -1,6 +1,5 @@
 package com.mta.javacourse.model;
 
-import com.mta.javacourse.Stock;
 
 
 /**

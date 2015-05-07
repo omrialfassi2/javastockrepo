@@ -5,30 +5,6 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<servlet>
-		<servlet-name>Omri_Nasdaq</servlet-name>
-		<servlet-class>com.mta.javacourse.Omri_NasdaqServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Omri_Nasdaq</servlet-name>
-		<url-pattern>/omri_nasdaq</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>mathServlet</servlet-name>
-		<servlet-class>com.mta.javacourse.mathServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>mathServlet</servlet-name>
-		<url-pattern>/mathservlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>StockDetailsServlet</servlet-name>
-		<servlet-class>com.mta.javacourse.StockDetailsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>StockDetailsServlet</servlet-name>
-		<url-pattern>/stockdetailsservlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>PortfolioServlet</servlet-name>
 		<servlet-class>com.mta.javacourse.servlet.PortfolioServlet</servlet-class>
 	</servlet>
