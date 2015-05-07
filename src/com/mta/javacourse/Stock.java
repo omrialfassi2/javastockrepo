@@ -3,6 +3,11 @@ package com.mta.javacourse;
 import java.text.*;
 import java.util.*;
 
+/**
+ * Stcok contains details about individual stock
+ * 
+ * @author OmriAlfassi
+ */
 public class Stock {
 	private String symbol;
 	private Float ask;
@@ -24,8 +29,16 @@ public class Stock {
 	   this.stockQuantity=0;
    }
 	
-	
-	
+   /**
+	 * Copy C'tor of Stock class.
+	 * @param originalStock
+	 */
+   public Stock (Stock originalStock)
+	{
+		this(originalStock.getSymbol(),originalStock.getBid(),originalStock.getAsk(),originalStock.getDate());
+		this.recommendation = originalStock.getRecommendation();
+		this.stockQuantity = originalStock.getStockQuantity();
+	}
 	
 	public int getBUY() {
 		return BUY;
@@ -69,15 +82,15 @@ public class Stock {
 	public void setBid(Float bid) {
 		this.bid = bid;
 	}
-	public java.util.Date getDate() {
-		return date;
+	public Date getDate() {
+		return this.date;
 	}
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
 	public String getHtmlDescription(){
 		
-		return "<b>Stock symbol </b>: "+this.symbol+"<b> Bid</b>: "+this.bid+"<b> Ask</b>: "+this.ask+"<b> date </b>:" +formDate.format(this.getDate())+"</br>";
+		return "<b>Stock symbol </b>: "+this.getSymbol()+"<b> Bid</b>: "+this.getBid()+"<b> Ask</b>: "+this.getAsk()+"<b> date </b>:" +formDate.format(this.getDate())+"</br>";
 	}
 	public SimpleDateFormat getFormDate() {
 		return formDate;

@@ -8,7 +8,7 @@ import com.mta.javacourse.model.Portfolio;
 
 public class PortfolioManager {
 	public Portfolio getPortfolio(){
-		Portfolio portfolio = new Portfolio();
+		Portfolio portfolio = new Portfolio("Portfolio");
 		portfolio.setTitle("Portfolio");
 		
 		Calendar stockD = Calendar.getInstance();
