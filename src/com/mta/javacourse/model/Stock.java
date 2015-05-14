@@ -3,6 +3,8 @@ package com.mta.javacourse.model;
 import java.text.*;
 import java.util.*;
 
+import com.mta.javacourse.model.Portfolio.ALGO_RECOMMENDATION;
+
 /**
  * Stock contains details about individual stock
  * @author OmriAlfassi
@@ -13,49 +15,36 @@ public class Stock {
 	private Float bid;
 	private java.util.Date date;
 	private SimpleDateFormat formDate = new SimpleDateFormat("dd/MM/yyyy");
-	private int recommendation,stockQuantity;
-	private static final int BUY = 0;
-	private static final int SELL = 1;
-	private static final int REMOVE = 2;
-	private static final int HOLD = 3;
-	
-   public Stock (String nSymbol, float nBid, float nAsk, Date nDate ){
-	   this.symbol=nSymbol;
-	   this.bid=nBid;
-	   this.ask=nAsk;
-	   this.date=nDate;
-	   this.recommendation=0;
-	   this.stockQuantity=0;
-   }
-	
-   /**
+	private int stockQuantity;
+	private ALGO_RECOMMENDATION recommendation;
+
+
+	public Stock (String nSymbol, float nBid, float nAsk, Date nDate ){
+		this.symbol=nSymbol;
+		this.bid=nBid;
+		this.ask=nAsk;
+		this.date=nDate;
+		this.recommendation=ALGO_RECOMMENDATION.HOLD;
+		this.stockQuantity=0;
+	}
+
+	/**
 	 * Copy C'tor of Stock class.
 	 * @param originalStock
 	 * @author OmriAlfassi
 	 */
-   public Stock (Stock originalStock)
+	public Stock (Stock originalStock)
 	{
 		this(originalStock.getSymbol(),originalStock.getBid(),originalStock.getAsk(),originalStock.getDate());
 		this.recommendation = originalStock.getRecommendation();
 		this.stockQuantity = originalStock.getStockQuantity();
 	}
-	
-	public int getBUY() {
-		return BUY;
-	}
-	public int getSELL() {
-		return SELL;
-	}
-	public int getREMOVE() {
-		return REMOVE;
-	}
-	public int getHOLD() {
-		return HOLD;
-	}
-	public int getRecommendation() {
+
+
+	public ALGO_RECOMMENDATION getRecommendation() {
 		return recommendation;
 	}
-	public void setRecommendation(int recommendation) {
+	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
 		this.recommendation = recommendation;
 	}
 	public int getStockQuantity() {
@@ -89,8 +78,10 @@ public class Stock {
 		this.date = date;
 	}
 	public String getHtmlDescription(){
-		
-		return "<b>Stock symbol </b>: "+this.getSymbol()+"<b> Bid</b>: "+this.getBid()+"<b> Ask</b>: "+this.getAsk()+"<b> date </b>:" +formDate.format(this.getDate())+"</br>";
+
+		return "<b>Stock symbol </b>: "+this.getSymbol()+
+		"<b> Bid</b>: "+this.getBid()+"<b> Ask</b>: "+this.getAsk()+"<b> date </b>:" +
+		formDate.format(this.getDate())+"<b> Quantity </b>:" +this.getStockQuantity();
 	}
 	public SimpleDateFormat getFormDate() {
 		return formDate;
@@ -99,5 +90,4 @@ public class Stock {
 	public void setFormDate(SimpleDateFormat formDate) {
 		this.formDate = formDate;
 	}
-	
 }
