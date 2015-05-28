@@ -2,22 +2,30 @@ package com.mta.javacourse.model;
 
 import java.text.*;
 import java.util.*;
-
+import org.algo.model.StockInterface;
 import com.mta.javacourse.model.Portfolio.ALGO_RECOMMENDATION;
 
 /**
  * Stock contains details about individual stock
  * @author OmriAlfassi
  */
-public class Stock {
+public class Stock implements StockInterface {
 	private String symbol;
-	private Float ask;
-	private Float bid;
+	private float ask;
+	private float bid;
 	private java.util.Date date;
 	private SimpleDateFormat formDate = new SimpleDateFormat("dd/MM/yyyy");
 	private int stockQuantity;
 	private ALGO_RECOMMENDATION recommendation;
 
+	public Stock (){
+		this.symbol = new String();
+		this.bid = 0;
+		this.ask = 0;
+		this.date = new Date();
+		this.recommendation = ALGO_RECOMMENDATION.HOLD;
+		this.stockQuantity = 0;				
+	}
 
 	public Stock (String nSymbol, float nBid, float nAsk, Date nDate ){
 		this.symbol=nSymbol;
@@ -44,9 +52,9 @@ public class Stock {
 	public ALGO_RECOMMENDATION getRecommendation() {
 		return recommendation;
 	}
-	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
-		this.recommendation = recommendation;
-	}
+//	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
+	//	this.recommendation = recommendation;
+//	}
 	public int getStockQuantity() {
 		return stockQuantity;
 	}
@@ -59,13 +67,13 @@ public class Stock {
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
-	public Float getAsk() {
+	public float getAsk() {
 		return ask;
 	}
 	public void setAsk(Float ask) {
 		this.ask = ask;
 	}
-	public Float getBid() {
+	public float getBid() {
 		return bid;
 	}
 	public void setBid(Float bid) {
@@ -89,5 +97,9 @@ public class Stock {
 
 	public void setFormDate(SimpleDateFormat formDate) {
 		this.formDate = formDate;
+	}
+
+	public void setRecommendation(ALGO_RECOMMENDATION typeOf) {
+		this.recommendation = typeOf;
 	}
 }
