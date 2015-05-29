@@ -5,10 +5,8 @@ import java.text.DecimalFormat;
 import org.algo.model.PortfolioInterface;
 import org.algo.model.StockInterface;
 
-import com.mta.javacourse.*;
-import com.mta.javacourse.service.PortfolioManager;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 /**
  * Portfolio contains info about stocks
@@ -17,16 +15,16 @@ import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 public class Portfolio implements PortfolioInterface{
 	private final static int MAX_PORTFOLIO_SIZE = 5;
-	
+
 	public enum ALGO_RECOMMENDATION {
 		BUY, SELL, REMOVE, HOLD 
 	}
-	
+
 	private String title;
 	private StockInterface[] stocks;
 	private int portSize;
 	private float balance;
-	
+
 	/**
 	 * C'tor of Portfolio .
 	 * @param 
@@ -37,7 +35,7 @@ public class Portfolio implements PortfolioInterface{
 		this.stocks = new StockInterface[MAX_PORTFOLIO_SIZE];
 		this.portSize = 0;
 		this.balance = 0;
-		
+
 	}
 	/**
 	 * C'tor of Portfolio .
@@ -132,7 +130,7 @@ public class Portfolio implements PortfolioInterface{
 			}
 		}
 		return -1;
-		
+
 	}
 
 	/**
@@ -152,7 +150,7 @@ public class Portfolio implements PortfolioInterface{
 		System.out.println("Stock is not in Portfolio");
 		return;
 	}
-	
+
 	/**
 	 * remove stock from portfolio by selling the stock and deleting it fom portfolio
 	 * @return boolean
@@ -293,7 +291,7 @@ public class Portfolio implements PortfolioInterface{
 			htmlResString = htmlResString + tStock.getHtmlDescription()+"<br>";
 		}
 		htmlResString += "Total Portfolio Value :"+this.getTotalValue()+ "$.<br>"+
-		"Total Stocks Value :"+this.getStocksValue()+"$. <br>"+"Balance :"+this.getBalance()+"$.";
+				"Total Stocks Value :"+this.getStocksValue()+"$. <br>"+"Balance :"+this.getBalance()+"$.";
 		return htmlResString;	
 	}
 
@@ -328,7 +326,7 @@ public class Portfolio implements PortfolioInterface{
 	 * return value of all stocks(portfolio value) + portfolio balance
 	 * @return float
 	 */
-	
+
 	public StockInterface findStock(String symbol) {
 		int i = 0;
 		for( i = 0; i< this.portSize; i++){
@@ -338,8 +336,8 @@ public class Portfolio implements PortfolioInterface{
 		}
 		return null;
 	}
-	
-	
+
+
 	public float getTotalValue(){
 		return this.balance+this.getStocksValue();
 	}
@@ -368,5 +366,5 @@ public class Portfolio implements PortfolioInterface{
 	public static int getMaxSize() {
 		return MAX_PORTFOLIO_SIZE;
 	}
-	
+
 }

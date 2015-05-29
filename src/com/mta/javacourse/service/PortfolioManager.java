@@ -132,18 +132,18 @@ public class PortfolioManager implements PortfolioManagerInterface {
 
 		try {
 			StockDto stockDto = ServiceManager.marketService().getStock(symbol);
-			
+
 			//get current symbol values from nasdaq.
 			Stock stock = fromDto(stockDto);
-			
+
 			//first thing, add it to portfolio.
 			//portfolio.addStock(stock,0);   
-			
+
 			portfolio.addStock(stock);   
 
 			//second thing, save the new stock to the database.
 			datastoreService.saveStock(toDto(portfolio.findStock(symbol)));
-			
+
 			flush(portfolio);
 		} catch (SymbolNotFoundInNasdaq e) {
 			System.out.println("Stock Not Exists: "+symbol);
@@ -157,12 +157,12 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	public void buyStock(String symbol, int quantity) throws PortfolioException{
 		try {
 			Portfolio portfolio = (Portfolio) getPortfolio();
-			
+
 			Stock stock = (Stock) portfolio.findStock(symbol);
 			if(stock == null) {
 				stock = fromDto(ServiceManager.marketService().getStock(symbol));				
 			}
-			
+
 			portfolio.buyStock(stock, quantity);
 			flush(portfolio);
 		}catch (Exception e) {
@@ -206,7 +206,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 		if (inStock == null) {
 			return null;
 		}
-		
+
 		Stock stock = (Stock) inStock;
 		return new StockDto(stock.getSymbol(), stock.getAsk(), stock.getBid(), 
 				stock.getDate(), stock.getStockQuantity(), stock.getRecommendation().name());
@@ -273,8 +273,8 @@ public class PortfolioManager implements PortfolioManagerInterface {
 
 		return ret;
 	}	
-	
-	
+
+
 	/**
 	 * A method that returns a new instance of Portfolio copied from another instance.
 	 * @param portfolio		Portfolio to copy.

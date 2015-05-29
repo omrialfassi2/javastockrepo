@@ -5,7 +5,7 @@ import com.mta.javacourse.service.PortfolioManager;
 
 @SuppressWarnings("serial")
 public class InitServlet extends javax.servlet.http.HttpServlet{
-	
+
 	@Override
 	public void init() throws ServletException {
 		super.init();

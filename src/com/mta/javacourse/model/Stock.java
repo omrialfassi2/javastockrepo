@@ -14,7 +14,7 @@ public class Stock implements StockInterface {
 	private float ask;
 	private float bid;
 	private java.util.Date date;
-	private SimpleDateFormat formDate = new SimpleDateFormat("dd/MM/yyyy");
+	transient private SimpleDateFormat formDate = new SimpleDateFormat("dd/MM/yyyy");
 	private int stockQuantity;
 	private ALGO_RECOMMENDATION recommendation;
 
@@ -52,9 +52,9 @@ public class Stock implements StockInterface {
 	public ALGO_RECOMMENDATION getRecommendation() {
 		return recommendation;
 	}
-//	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
+	//	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
 	//	this.recommendation = recommendation;
-//	}
+	//	}
 	public int getStockQuantity() {
 		return stockQuantity;
 	}
@@ -88,8 +88,8 @@ public class Stock implements StockInterface {
 	public String getHtmlDescription(){
 
 		return "<b>Stock symbol </b>: "+this.getSymbol()+
-		"<b> Bid</b>: "+this.getBid()+"<b> Ask</b>: "+this.getAsk()+"<b> date </b>:" +
-		formDate.format(this.getDate())+"<b> Quantity </b>:" +this.getStockQuantity();
+				"<b> Bid</b>: "+this.getBid()+"<b> Ask</b>: "+this.getAsk()+"<b> date </b>:" +
+				formDate.format(this.getDate())+"<b> Quantity </b>:" +this.getStockQuantity();
 	}
 	public SimpleDateFormat getFormDate() {
 		return formDate;
