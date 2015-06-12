@@ -6,14 +6,23 @@ import org.algo.model.PortfolioInterface;
 import org.algo.model.StockInterface;
 
 
+
+
+
+
+import com.mta.javacourse.excepsion.BalanceException;
+import com.mta.javacourse.excepsion.PortfolioFullException;
+import com.mta.javacourse.excepsion.StockAlreadyExistsException;
+import com.mta.javacourse.excepsion.StockNotExistException;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 
+import org.algo.exception.PortfolioException;
 /**
  * Portfolio contains info about stocks
  * @author OmriAlfassi
  */
 
-public class Portfolio implements PortfolioInterface{
+public class Portfolio implements PortfolioInterface {
 	private final static int MAX_PORTFOLIO_SIZE = 5;
 
 	public enum ALGO_RECOMMENDATION {
@@ -95,12 +104,11 @@ public class Portfolio implements PortfolioInterface{
 	 * @param stock
 	 * @author OmriAlfassi
 	 */
-	public void addStock(Stock stock){
+	public void addStock(Stock stock) throws StockAlreadyExistsException, PortfolioFullException{
 		if(this.portSize<MAX_PORTFOLIO_SIZE && stock != null){
 			for (int i=0;i<this.portSize;i++){
 				if (this.stocks[i].getSymbol().equals(stock.getSymbol())){
-					System.out.println("Stock allready exists in portfolio");
-					return;
+					throw new StockAlreadyExistsException(stock.getSymbol());
 				}
 			}
 			stocks[this.portSize] = (StockInterface) stock;//
@@ -113,7 +121,7 @@ public class Portfolio implements PortfolioInterface{
 				System.out.println("Stock is Invalide");
 			}
 			else{
-				System.out.println("Can’t add new stock, portfolio can have only "+ MAX_PORTFOLIO_SIZE +"stocks");
+				throw new PortfolioFullException();
 			}	
 		}
 	}
@@ -137,7 +145,7 @@ public class Portfolio implements PortfolioInterface{
 	 * delete stocks with same symbol as asked to delete 
 	 * @param stock
 	 */
-	public void deleteStock(StockInterface stock){
+	public void deleteStock(StockInterface stock) throws StockNotExistException{
 		for(int i = 0; i< this.portSize; i++){
 			if((this.stocks[i].getSymbol().equals(stock.getSymbol()))){
 				stocks[i] = stocks[this.portSize-1];
@@ -147,8 +155,7 @@ public class Portfolio implements PortfolioInterface{
 				return;
 			}
 		}
-		System.out.println("Stock is not in Portfolio");
-		return;
+		throw new StockNotExistException("Cant delete, The stock name is invalid!");
 	}
 
 	/**
@@ -156,21 +163,33 @@ public class Portfolio implements PortfolioInterface{
 	 * @return boolean
 	 * @param symbol
 	 */
-	public boolean removeStock(String symbol){
+	public void removeStock(String symbol) throws StockNotExistException, BalanceException{
+		if (symbol == null){
+			throw new StockNotExistException("The stock name is invalid!");
+		}
 		if (isStockInPort(symbol)>-1){
 			int i=isStockInPort(symbol);
-			if (i==-1){
-				System.out.println("Stock does not found in protfolio");
-				return false;
-			}
-			else{
+			try{
 				sellStock(symbol, -1);
+			}catch (IllegalArgumentException e) {
+				e.getMessage();
+				e.printStackTrace();
+				throw e;
+			} catch (StockNotExistException e) {
+				e.getMessage();
+				e.printStackTrace();
+				throw e;
+			}
+			try{
 				deleteStock(this.stocks[i]);
-				return true;
+			}catch 	(StockNotExistException e) {
+				e.getMessage();
+				e.printStackTrace();
+				throw e;
 			}
 		}
 		else{
-			return false;
+			throw new StockNotExistException("You dont have this stock in portfolio");
 		}
 	}
 	/**
@@ -178,21 +197,18 @@ public class Portfolio implements PortfolioInterface{
 	 * @return boolean
 	 * @param symbol, quantity
 	 */
-	public boolean sellStock (String symbol,int quantity){
+	public void sellStock (String symbol,int quantity) throws IllegalArgumentException, StockNotExistException,BalanceException{
 		if (quantity<-1){
-			System.out.println("Invalide amount of stocks to sell");
-			return false;
+			throw new IllegalArgumentException("The number of stocks you wish to sell is invalid!");
 		}
 		else{
 			if (isStockInPort(symbol)==-1){
-				System.out.println("Stock is not in protfolio");
-				return false;
+				throw new StockNotExistException("stock"+symbol+"does not exists");
 			}
 			else{
 				int i=isStockInPort(symbol);
 				if (((Stock) this.stocks[i]).getStockQuantity()<quantity){
-					System.out.println("Not enough stocks to sell");
-					return false;
+					throw new IllegalArgumentException("Stocks quantity is too big");
 				}
 				else{
 					if (quantity!= -1){
@@ -200,13 +216,11 @@ public class Portfolio implements PortfolioInterface{
 						int amount=((Stock) this.stocks[i]).getStockQuantity()-quantity;
 						((Stock) this.stocks[i]).setStockQuantity(amount);
 						((Stock) this.stocks[i]).setRecommendation(ALGO_RECOMMENDATION.SELL);
-						return true;
 					}
 					else{
 						updateBalance(((Stock) this.stocks[i]).getStockQuantity()*this.stocks[i].getBid());
 						((Stock) this.stocks[i]).setStockQuantity(0);
 						((Stock) this.stocks[i]).setRecommendation(ALGO_RECOMMENDATION.SELL);
-						return true;
 					}
 				}
 			}
@@ -218,43 +232,49 @@ public class Portfolio implements PortfolioInterface{
 	 * @return boolean
 	 * @param stock, quantity
 	 */
-	public boolean buyStock (Stock stock, int quantity){
+	public void buyStock (Stock stock, int quantity)throws IllegalArgumentException, PortfolioFullException, BalanceException, StockAlreadyExistsException, StockNotExistException{
 		if (stock == null){
-			System.out.println("Stock is Invalide");
-			return false;
+			throw new IllegalArgumentException("Invalid stock");
 		}
 		else{
 			if (stock.getAsk()*quantity>this.balance || this.balance<stock.getAsk()){
-				System.out.println("“Not enough balance to complete purchase.");
-				return false;
+				throw new BalanceException();
 			}
 			else{
 				if (quantity<-1){
-					System.out.println("Invalide amount of stocks to buy");
-					return false;
+					throw new IllegalArgumentException("Invalid quantity amount");
 				}
 				else{
 					if (isStockInPort(stock.getSymbol())==-1){
 						if (this.portSize==MAX_PORTFOLIO_SIZE){
-							System.out.println("Stock does not exists already in portfolio and there is no room to add it.");
-							return false;
+							throw new PortfolioFullException();
 						}
 						else{
-							addStock(stock);
+							try {
+								addStock(stock);
+							} catch(StockAlreadyExistsException e) {
+								e.getMessage();
+								e.printStackTrace();
+								throw e;
+							} catch (PortfolioFullException e){
+								e.getMessage();
+								e.printStackTrace();
+								throw e;
+							}
 							int i=isStockInPort(stock.getSymbol());
 							if (quantity == -1){
 								int amount = (int) (this.balance/this.stocks[i].getAsk());	
 								((Stock) this.stocks[i]).setStockQuantity(amount);
 								this.balance -=amount*this.stocks[i].getAsk();
-								return true;
 							}
 							else{
 								((Stock) this.stocks[i]).setStockQuantity(quantity);
 								this.balance -=quantity*this.stocks[i].getAsk();
-								return true;
 							}
 						}
 					}
+
+
 					else{
 						int i=isStockInPort(stock.getSymbol());
 						if (quantity == -1){
@@ -262,19 +282,17 @@ public class Portfolio implements PortfolioInterface{
 							this.balance -=amount*this.stocks[i].getAsk();
 							amount +=((Stock) this.stocks[i]).getStockQuantity();
 							((Stock) this.stocks[i]).setStockQuantity(amount);
-							return true;
 						}
 						else{
 							this.balance -=this.stocks[i].getAsk()*quantity;
 							int amount=((Stock) this.stocks[i]).getStockQuantity()+quantity;
 							((Stock) this.stocks[i]).setStockQuantity(amount);
-							return true;
 						}
 					}
 				}
 			}
 		}
-	}
+	}	
 
 	/**
 	 * print string.
@@ -295,11 +313,11 @@ public class Portfolio implements PortfolioInterface{
 		return htmlResString;	
 	}
 
-	public void updateBalance(float amount){
+	public void updateBalance(float amount)throws BalanceException{
 		if ( amount < 0 ){
 			float validate=amount+ this.balance;
 			if ( validate < 0 ){
-				System.out.println("The amount that you whish to withdraw is bigger than your balance");
+				throw new BalanceException("Balance is to low, canot execute.");
 			}
 			else{
 				this.balance+=amount;
